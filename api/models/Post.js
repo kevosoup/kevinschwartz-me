@@ -17,12 +17,12 @@ const PostSchema = new mongoose.Schema(
         },
         username:{
             type:String,
-            required:true
+            required:true,
         },
         categories:{
             type:Array,
-            required:false
-        }
+            required:false,
+        },
     },
     { timestamps: true }
 );
