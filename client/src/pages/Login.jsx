@@ -7,7 +7,7 @@ import "./login.css";
 export default function Login() {
   const userRef = useRef();
   const passwordRef = useRef();
-  const {user, dispatch, isFetching } = useContext(Context)
+  const { dispatch, isFetching } = useContext(Context)
 
   const handleSubmit = async (e) =>{
     e.preventDefault();
@@ -19,13 +19,11 @@ export default function Login() {
       });
       dispatch({ type:"LOGIN_SUCCESS", payload: res.data });
     }catch(err){
-      console.error("Login error:", err);
       dispatch({ type: "LOGIN_FAILURE" });
 
     }
   };
 
-  console.log(user)
   return (
     <div className="login | font-secondary w-full flex flex-col justify-center items-center">
         <span className="loginTitle | font-primary uppercase text-lg mb-5">Login</span>
@@ -46,7 +44,9 @@ export default function Login() {
                   ref={passwordRef}
                   className="px-1"/>
             </div>
-            <button type="submit" className="loginButton | w-full mt-5 bg-black text-white text-sm font-primary uppercase">Login</button>
+            <button type="submit" disabled={isFetching} className="loginButton | w-full mt-5 bg-black text-white text-sm font-primary uppercase disabled:opacity-75 disabled:cursor-not-allowed">
+              Login
+            </button>
         </form>
         <button className="loginRegisterButton | text-sm underline font-primary">
           <Link to="/register">Register</Link>
