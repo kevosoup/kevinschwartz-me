@@ -22,19 +22,23 @@ router.post("/register", async (req, res) => {
     }
 })
 
-//LOGIN
-router.post("/login", async (req, res) =>{
+// LOGIN
+router.post("/login", async (req, res) => {
     try {
-        const user = await User.findOne({username: req.body.username})
-        !user && res.status(400).json("Wrong credentials!")
+        const user = await User.findOne({ username: req.body.username });
+        if (!user) {
+            return res.status(400).json("Wrong credentials!"); // Stop execution if user is not found
+        }
 
         const validated = await bcrypt.compare(req.body.password, user.password);
-        !validated && res.status(400).json("Wrong credentials!")
+        if (!validated) {
+            return res.status(400).json("Wrong credentials!"); // Stop execution if password is incorrect
+        }
 
-        const { password, ...others } = user;
-        res.status(200).json(others._doc);
-    }catch(err){
-        res.status(500).json(err);
+        const { password, ...others } = user._doc; // Assuming `user._doc` is the actual user object
+        res.status(200).json(others); // Send response with user data, excluding the password
+    } catch (err) {
+        res.status(500).json(err); // Handle other server errors
     }
 });
 

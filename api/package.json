@@ -15,6 +15,7 @@
   "scripts": {
     "start": "nodemon index.js"
   },
+  "proxy": "http://localhost:3000",
   "author": "Kevin Schwartz",
   "license": "ISC"
 }
